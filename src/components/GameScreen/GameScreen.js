@@ -6,6 +6,7 @@ import meteoriteSmall from "../../assets/meteorit-small.png";
 import parachuteSmall from "../../assets/parashute-small.png";
 import parachuteBig from "../../assets/parashute-big.png";
 import healingIcon from "../../assets/first_aid_kit_PNG121.png";
+import pauseIcon from "../../assets/pause-icon.png";
 
 // основной экран
 const GameScreen = () => {
@@ -266,6 +267,28 @@ const GameScreen = () => {
           animationPlayState: isPaused ? "paused" : "running",
         }}
       >
+        {isPaused && (
+          <div
+            style={{
+              position: "absolute",
+              zIndex: 9999,
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <img
+              src={pauseIcon}
+              alt="Pause Icon"
+              style={{
+                width: "100px",
+                height: "100px",
+              }}
+              className="pause-icon"
+            />
+          </div>
+        )}
+
         {isHealingIconVisible && (
           <img
             src={healingIcon}

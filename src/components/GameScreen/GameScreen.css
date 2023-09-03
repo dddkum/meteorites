@@ -83,3 +83,8 @@ body,
   position: absolute;
   top: 0;
 }
+
+.pause-icon {
+    border: 5px solid #fff;
+    border-radius: 50%;
+}
