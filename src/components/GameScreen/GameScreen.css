@@ -1,0 +1,85 @@
+.main {
+  background-image: url(../../assets/background.svg);
+  max-width: 1600px;
+  max-height: 900px;
+  border-radius: 10px;
+}
+
+.info-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+  background-color: #fff;
+}
+
+button {
+  width: 200px;
+  height: 50px;
+}
+
+.aid-kit-fall {
+  width: 50px;
+  animation: meteoriteFall calc(2s * var(--meteorite-speed-modifier)) linear
+    forwards infinite;
+}
+
+.parachute-big {
+  width: 100px;
+}
+
+.parachute-small {
+  width: 50px;
+}
+
+:root {
+  --meteorite-speed-modifier: 1;
+}
+
+@keyframes meteoriteFall {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(800px);
+  }
+}
+
+.big-meteorite-fall {
+  animation: meteoriteFall calc(2s * var(--meteorite-speed-modifier)) linear
+    forwards infinite;
+}
+
+.small-meteorite-fall {
+  animation: meteoriteFall calc(2s * var(--meteorite-speed-modifier)) linear
+    forwards infinite;
+}
+
+html,
+body,
+#root,
+.main {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.game-field {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.paused * {
+  animation-play-state: paused !important;
+  animation-delay: 0s !important;
+}
+
+.meteorite {
+  height: var(--meteorite-size);
+  width: var(--meteorite-size);
+  position: absolute;
+  top: 0;
+}
