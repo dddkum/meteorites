@@ -60,25 +60,15 @@ const GameScreen = () => {
       setAidKitIconX(Math.random() * (window.innerWidth - 150));
       setAidKitIconY(-100);
       setIsAidKitIconVisible(true);
-
-      intervalId = setInterval(() => {
-        if (!isPaused) {
-          return setIsAidKitIconVisible(false);
-        }
-      }, 20);
     };
 
     if (healthPoints <= 3) {
-      const spawnIntervalId = setInterval(
-        startAidKitIconFall,
-        Math.floor(Math.random() * (45000 - 15000 + 1)) + 15000
-      );
-
-      return () => {
-        clearInterval(spawnIntervalId);
-        clearInterval(intervalId);
-      };
+      intervalId = setInterval(startAidKitIconFall, Math.floor(Math.random() * (45000 - 15000 + 1)) + 15000);
     }
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [healthPoints, isPaused, aidKitIconY]);
   //конец аптечки
 
@@ -92,6 +82,11 @@ const GameScreen = () => {
     setIsAidKitIconVisible(false);
   };
   //конец
+
+  const handleAidKitRemoval = () => {
+    setIsAidKitIconVisible(false);
+  };
+  
 
   // клики по метеоритам
   const handleMeteorClick = (id, points, meteorType) => {
@@ -176,19 +171,27 @@ const GameScreen = () => {
   }, [createMeteorite, isPaused, meteorites]);
   //конец
 
-  //удаление метеоритов и определение урона
+  //удаление метеоритов, определение урона и завершение игры
   const handleMeteorRemoval = (meteorite) => {
     if (!meteorite.parachuteAttached) {
       setHealthPoints((prevHealthPoints) => {
         const damage = meteorite.type === 'big' ? 2 : 1;
-        return prevHealthPoints - damage;
+        const newHealthPoints = prevHealthPoints - damage;
+        
+        // завершение игры при 0 хп
+        if (newHealthPoints <= 0) {
+          handleEndGameClick();
+        } else {
+          return newHealthPoints;
+        }
       });
     }
-    
+  
     setMeteorites((prevMeteorites) =>
       prevMeteorites.filter((m) => m.id !== meteorite.id)
     );
   };
+  
   //конец
 
   //парашютики
@@ -241,17 +244,18 @@ const GameScreen = () => {
         )}
 
         {isAidKitIconVisible && (
-          <img
-            src={healingIcon}
-            alt="аптечка"
-            className="aid-kit-fall no-select"
-            onClick={handleAidKitClick}
-            style={{
-              left: aidKitIconX,
-              top: aidKitIconY,
-            }}
-            draggable="false"/>
-        )}
+  <img
+    src={healingIcon}
+    alt="аптечка"
+    className="aid-kit-fall no-select"
+    onClick={handleAidKitClick}
+    onAnimationEnd={handleAidKitRemoval}
+    style={{
+      left: aidKitIconX,
+      top: aidKitIconY,
+    }}
+    draggable="false"/>
+)}
 
         {meteorites.map((meteorite) => {
           const meteoriteImage =

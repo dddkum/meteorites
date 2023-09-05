@@ -20,11 +20,22 @@ button {
 
 .aid-kit-fall {
   position: absolute;
-  width: 50px;
-  animation: meteoriteFall calc(2s * var(--meteorite-speed-modifier)) linear
-    forwards;
-  animation-play-state: running;
-  cursor: pointer,
+  width: 100px;
+  z-index: 100;
+  animation-name: aid-kit-fall;
+  animation-timing-function: linear;
+  animation-duration: 10s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes aid-kit-fall {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
 }
 
 .parachute-big {
