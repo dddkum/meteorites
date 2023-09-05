@@ -19,9 +19,12 @@ button {
 }
 
 .aid-kit-fall {
+  position: absolute;
   width: 50px;
   animation: meteoriteFall calc(2s * var(--meteorite-speed-modifier)) linear
-    forwards infinite;
+    forwards;
+  animation-play-state: running;
+  cursor: pointer,
 }
 
 .parachute-big {
@@ -41,18 +44,20 @@ button {
     transform: translateY(0);
   }
   100% {
-    transform: translateY(800px);
+    transform: translateY(100vh);
   }
 }
 
 .big-meteorite-fall {
   animation: meteoriteFall calc(2s * var(--meteorite-speed-modifier)) linear
-    forwards infinite;
+    forwards;
+  animation-play-state: running;
 }
 
 .small-meteorite-fall {
   animation: meteoriteFall calc(2s * var(--meteorite-speed-modifier)) linear
-    forwards infinite;
+    forwards;
+  animation-play-state: running;
 }
 
 html,
@@ -84,7 +89,15 @@ body,
   top: 0;
 }
 
-.pause-icon {
-    border: 5px solid #fff;
-    border-radius: 50%;
+.pause-icon img{
+  border: 5px solid #fff;
+  border-radius: 10%;
+  position: absolute;
+  z-index: 9999;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  text-align: center;
 }
