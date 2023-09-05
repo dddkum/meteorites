@@ -235,7 +235,8 @@ const GameScreen = () => {
             <img
               src={pauseIcon}
               alt="Pause Icon"
-            />
+              className="no-select"
+              draggable="false"/>
           </div>
         )}
 
@@ -243,13 +244,13 @@ const GameScreen = () => {
           <img
             src={healingIcon}
             alt="аптечка"
-            className="aid-kit-fall"
+            className="aid-kit-fall no-select"
             onClick={handleAidKitClick}
             style={{
               left: aidKitIconX,
               top: aidKitIconY,
             }}
-          />
+            draggable="false"/>
         )}
 
         {meteorites.map((meteorite) => {
@@ -279,7 +280,7 @@ const GameScreen = () => {
                 }}
                 className={`${meteorite.type}-meteorite-fall`}
               >
-                <img src={meteoriteImage} alt={`${meteorite.type} meteorite`} />
+                <img src={meteoriteImage} alt={`${meteorite.type} meteorite`} className="no-select" draggable="false"/>
                 {meteorite.parachuteAttached && (
                   <img
                     src={parachuteImage}
@@ -291,7 +292,8 @@ const GameScreen = () => {
                       transform: "translateX(-50%)",
                       maxWidth: meteorite.type === "big" ? "80px" : "40px",
                     }}
-                  />
+                    className="no-select"
+                    draggable="false"/>  
                 )}
               </div>
             </div>
