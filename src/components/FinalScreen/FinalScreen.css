@@ -5,3 +5,9 @@
 table {
     margin: 0 auto;
 }
+
+.final-table th,
+.final-table td {
+  text-align: left;
+  padding: 0 10px;
+}

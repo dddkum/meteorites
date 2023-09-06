@@ -10,19 +10,25 @@ const FinalScreen = () => {
     const result = {};
 
     scores.forEach(({ name, score }) => {
+      const currentScore = parseInt(score);
       if (result[name]) {
-        result[name].push(score);
+        result[name] = result[name].slice(-2);
+        result[name].push(currentScore);
       } else {
-        result[name] = [score];
+        result[name] = [currentScore];
       }
     });
 
     return Object.entries(result)
       .map(([name, scores]) => ({
         name,
-        scores: scores.join(", "),
+        scores: scores
+          .filter((score) => score >= 1)
+          .sort((a, b) => b - a)
+          .slice(0, 3)
+          .join(", "),
       }))
-      .sort((a, b) => a.name.localeCompare(b.name));
+      .filter(({ scores }) => scores !== "");
   };
 
   useEffect(() => {
