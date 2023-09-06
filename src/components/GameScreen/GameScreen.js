@@ -274,7 +274,7 @@ const GameScreen = () => {
                 }
                 onAnimationEnd={(e) => handleMeteorRemoval(meteorite)}
                 style={{
-                  cursor: "pointer",
+                  cursor: "crosshair",
                   position: "absolute",
                   left: meteorite.xPos,
                   top: yPos,
