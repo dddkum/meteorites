@@ -96,6 +96,9 @@ const GameScreen = () => {
     setMeteorites((prevMeteorites) => {
       return prevMeteorites.map((meteorite) => {
         if (meteorite.id === id) {
+          if (meteorite.parachuteAttached) {
+            return meteorite;
+          }
           if (meteorite.clicks < meteorite.clicksRequired - 1) {
             return {
               ...meteorite,
@@ -110,6 +113,7 @@ const GameScreen = () => {
       });
     });
   };
+
   //конец
 
   //создание метеоритов
