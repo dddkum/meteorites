@@ -25,10 +25,10 @@ const FinalScreen = () => {
         scores: scores
           .filter((score) => score >= 1)
           .sort((a, b) => b - a)
-          .slice(0, 3)
-          .join(", "),
+          .slice(0, 3),
       }))
-      .filter(({ scores }) => scores !== "");
+      .filter(({ scores }) => scores.length > 0)
+      .sort((a, b) => Math.max(...b.scores) - Math.max(...a.scores));
   };
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const FinalScreen = () => {
           {scores.map((score, index) => (
             <tr key={index}>
               <td>{score.name}</td>
-              <td>{score.scores}</td>
+              <td>{score.scores.join(", ")}</td>
             </tr>
           ))}
         </tbody>
