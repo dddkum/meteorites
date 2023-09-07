@@ -147,12 +147,20 @@ const GameScreen = () => {
 
   // изменение скорости метеоритов
   useEffect(() => {
-    const speedInterval = setInterval(() => {
+    let speedInterval;
+    const changeSpeed = () => {
       setMeteoriteSpeedModifier((prevSpeed) => prevSpeed * 0.9);
-    }, 60000);
-
-    return () => clearInterval(speedInterval);
-  }, []);
+    };
+  
+    if (!isPaused) {
+      speedInterval = setInterval(changeSpeed, 60000);
+    }
+  
+    return () => {
+      clearInterval(speedInterval);
+    };
+  }, [isPaused]);
+  
 
   useEffect(() => {
     document.documentElement.style.setProperty(
