@@ -63,7 +63,10 @@ const GameScreen = () => {
     };
 
     if (healthPoints <= 3) {
-      intervalId = setInterval(startAidKitIconFall, Math.floor(Math.random() * (45000 - 15000 + 1)) + 15000);
+      intervalId = setInterval(
+        startAidKitIconFall,
+        Math.floor(Math.random() * (45000 - 15000 + 1)) + 15000
+      );
     }
 
     return () => {
@@ -74,6 +77,10 @@ const GameScreen = () => {
 
   //обработка клика по аптечке
   const handleAidKitClick = () => {
+    if (isPaused) {
+      return;
+    }
+
     setHealthPoints((prevHealthPoints) => {
       const incrementedHealth =
         prevHealthPoints + (Math.floor(Math.random() * 3) + 1);
@@ -86,7 +93,6 @@ const GameScreen = () => {
   const handleAidKitRemoval = () => {
     setIsAidKitIconVisible(false);
   };
-  
 
   // клики по метеоритам
   const handleMeteorClick = (id, points, meteorType) => {
@@ -113,7 +119,6 @@ const GameScreen = () => {
       });
     });
   };
-
   //конец
 
   //создание метеоритов
@@ -121,7 +126,7 @@ const GameScreen = () => {
     if (isPaused) {
       return;
     }
-    
+
     const id = Date.now();
     const type = Math.random() > 0.5 ? "big" : "small";
     const xPos = Math.random() * (window.innerWidth - 150);
@@ -135,7 +140,7 @@ const GameScreen = () => {
       fallingSpeedModifier: meteoriteSpeedModifier,
       parachuteAttached: false,
     };
-  
+
     setMeteorites((prevMeteorites) => [...prevMeteorites, meteorite]);
   }, [isPaused, meteoriteSpeedModifier]);
   // конец
@@ -157,7 +162,7 @@ const GameScreen = () => {
   }, [meteoriteSpeedModifier]);
   //конец
 
-  // интервал создания метеоритов от 1 до 3 секунд 
+  // интервал создания метеоритов от 1 до 3 секунд
   useEffect(() => {
     const createMeteoriteWithLimit = () => {
       if (meteorites.length < 10) {
@@ -179,9 +184,9 @@ const GameScreen = () => {
   const handleMeteorRemoval = (meteorite) => {
     if (!meteorite.parachuteAttached) {
       setHealthPoints((prevHealthPoints) => {
-        const damage = meteorite.type === 'big' ? 2 : 1;
+        const damage = meteorite.type === "big" ? 2 : 1;
         const newHealthPoints = prevHealthPoints - damage;
-        
+
         // завершение игры при 0 хп
         if (newHealthPoints <= 0) {
           handleEndGameClick();
@@ -190,12 +195,12 @@ const GameScreen = () => {
         }
       });
     }
-  
+
     setMeteorites((prevMeteorites) =>
       prevMeteorites.filter((m) => m.id !== meteorite.id)
     );
   };
-  
+
   //конец
 
   //парашютики
@@ -212,7 +217,6 @@ const GameScreen = () => {
         return meteorite;
       });
     });
-    
   };
   //конец
 
@@ -238,28 +242,31 @@ const GameScreen = () => {
         }}
       >
         {isPaused && (
-          <div className = "pause-icon">
+          <div className="pause-icon">
             <img
               src={pauseIcon}
               alt="Pause Icon"
               className="no-select"
-              draggable="false"/>
+              draggable="false"
+            />
           </div>
         )}
 
         {isAidKitIconVisible && (
-  <img
-    src={healingIcon}
-    alt="аптечка"
-    className="aid-kit-fall no-select"
-    onClick={handleAidKitClick}
-    onAnimationEnd={handleAidKitRemoval}
-    style={{
-      left: aidKitIconX,
-      top: aidKitIconY,
-    }}
-    draggable="false"/>
-)}
+          <img
+            src={healingIcon}
+            alt="аптечка"
+            className="aid-kit-fall no-select"
+            onClick={handleAidKitClick}
+            onAnimationEnd={handleAidKitRemoval}
+            style={{
+              left: aidKitIconX,
+              top: aidKitIconY,
+              animationPlayState: isPaused ? "paused" : "running",
+            }}
+            draggable="false"
+          />
+        )}
 
         {meteorites.map((meteorite) => {
           const meteoriteImage =
@@ -282,13 +289,17 @@ const GameScreen = () => {
                   position: "absolute",
                   left: meteorite.xPos,
                   top: yPos,
-                  animationDuration: isPaused
-                    ? "0s"
-                    : `${meteorite.fallingSpeedModifier}s`,
+                  animationDuration: `${meteorite.fallingSpeedModifier}s`,
+                  animationPlayState: isPaused ? "paused" : "running",
                 }}
                 className={`${meteorite.type}-meteorite-fall`}
               >
-                <img src={meteoriteImage} alt={`${meteorite.type} meteorite`} className="no-select" draggable="false"/>
+                <img
+                  src={meteoriteImage}
+                  alt={`${meteorite.type} meteorite`}
+                  className="no-select"
+                  draggable="false"
+                />
                 {meteorite.parachuteAttached && (
                   <img
                     src={parachuteImage}
@@ -301,7 +312,8 @@ const GameScreen = () => {
                       maxWidth: meteorite.type === "big" ? "80px" : "40px",
                     }}
                     className="no-select"
-                    draggable="false"/>  
+                    draggable="false"
+                  />
                 )}
               </div>
             </div>
